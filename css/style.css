@@ -1,0 +1,35 @@
+.conteudo{
+    position:relative;
+    border-style: dashed;
+    height: 100vh;
+    align-self: center;
+}
+.pic{
+    width: 50%;
+    margin: 0 auto;
+    border-style: dashed;
+    padding: 3%;    
+}
+
+video, canvas {
+    margin-left: 40px;
+    margin-top: 0;
+    margin-bottom: 50px;
+    position:absolute;
+    border-style: dashed;
+    
+  }
+
+.alert{
+    display:none;
+}
+
+.faces{
+   
+}
+
+.demo-container{
+    height: 300px;
+    margin-bottom: 20px;
+
+}

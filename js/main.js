@@ -78,6 +78,14 @@
 
   function setupVideo(frontCameraId) {
     var deferred = new $.Deferred();
+
+    navigator.getMedia = ( navigator.getUserMedia ||
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia ||
+      navigator.msGetUserMedia);
+
+      
+    //---------
     var getUserMedia = Modernizr.prefixed('getUserMedia', navigator);
     var videoSettings = {
       video: {
