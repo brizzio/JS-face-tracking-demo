@@ -18,32 +18,26 @@
 <body>
 
 <div class="container conteudo">
-    <div class="alert alert-danger"><strong>Oops!</strong> <span></span></div>
-   
-    <div class="pic">
-            <div class="row">
-                <h1><i class="glyphicon glyphicon-facetime-video"></i></h1>
-
-                <p class="lead">
-                    Enquadre o seu rosto na imagem.
-                    <i class="glyphicon glyphicon-question-sign help" data-placement="bottom"
-                    data-html="true"></i>
-                </p>
-
-           
+        
                 <div class="demo-frame">
-                        <div class="demo-container">
-                        <video id="video" width="320" height="240" preload autoplay loop muted></video>
-                        <canvas id="canvas" width="320" height="240"></canvas>
+                        <div class="pic">
+                        <h1><i class="glyphicon glyphicon-facetime-video"></i></h1>
+                        </div>        
+                        <p class=" pic lead">
+                            Enquadre o seu rosto na imagem.
+                            <i class="glyphicon glyphicon-question-sign help" data-placement="bottom"
+                            data-html="true"></i>
+                        </p>
+                        <div class="pic demo-container">
+                            <div class="imagem">
+                                <video id="video" width="320" height="240" preload autoplay loop muted></video>
+                                <canvas id="canvas" width="320" height="240"></canvas>
+                            </div>
                         </div>
+                        <div class="pic" id="faces">
+                            imagens
+                        </div>  
                 </div>
-            </div> 
-            
-    </div> 
-    <div class="pic" id="faces">
-            imagens
-    </div>   
-    
 
     
 </div> 
@@ -62,33 +56,6 @@
 <script src="js/main.js"></script>
 <script src="js/main2.js"></script>
 
-<!-- Social
-<script>!function (d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
-    if (!d.getElementById(id)) {
-        js = d.createElement(s);
-        js.id = id;
-        js.src = p + '://platform.twitter.com/widgets.js';
-        fjs.parentNode.insertBefore(js, fjs);
-    }
-}(document, 'script', 'twitter-wjs');</script>
-<script type="text/javascript">
-    (function () {
-        var po = document.createElement('script');
-        po.type = 'text/javascript';
-        po.async = true;
-        po.src = 'https://apis.google.com/js/platform.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(po, s);
-    })();
-</script>
-<script>(function (d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-    fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>-->
+
 </body>
 </html>
