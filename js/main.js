@@ -148,6 +148,13 @@
       .then(setupVideo)
       .then(waitForImages)
       .done(function () {
+
+        //Keep a reference to user media:
+
+        navigator.getUserMedia({video: true}, function(stream) {
+          localMediaStream = stream;
+        }, function(error){console.error(error)});
+
         //Enable 'record' button
         $('#record').removeAttr('disabled');
         //Hide the 'enable the camera' info
@@ -162,12 +169,18 @@
 
   function setupTrackingJS() {
     var canvas = document.querySelector('#step1 canvas.visible');
+
     var scaledWidth = 240, scaledHeight = Math.round((scaledWidth / pictureWidth) * pictureHeight);
     var frameCount = 0;
+    const img = document.querySelector('#screenshot-img');
+    const newCanvas = document.querySelector('#step1 canvas.hidden');
+    
 
     //setup canvas
     canvas.width = scaledWidth;
     canvas.height = scaledHeight;
+    newCanvas.width = scaledWidth;
+    newCanvas.height = scaledHeight;
 
     var ctx = canvas.getContext('2d');
 
@@ -183,24 +196,23 @@
       flames = [];
 
       event.data.forEach(function (rect) {
-        frameCount++;
-        var orgWidth = 256;
-        var orgHeight = 256;
-        var newWidth = (rect.width * 2);
-        var newHeight = newWidth / orgWidth * orgHeight;
-        var fixTop = rect.height * 0.2;
-        var fixLeft = -rect.width / 2;
-        var image = flameFrames[frameCount % flameFrames.length];
+        ctx.strokeStyle = '#a64ceb';
+        ctx.strokeRect(rect.x, rect.y, rect.width, rect.height);
+        ctx.font = '11px Helvetica';
+        ctx.fillStyle = "#fff";
+        ctx.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+        ctx.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
 
-        flames.push({
-          image: image,
-          x: (rect.x + fixLeft),
-          y: (rect.y - newHeight + fixTop),
-          width: newWidth,
-          height: newHeight
-        });
+        //ctx.drawImage(video, rect.x, rect.y, rect.width, rect.height, rect.x, rect.y, rect.width, rect.height);
+        var nctx = newCanvas.getContext('2d')
+        nctx.clearRect(0, 0, newCanvas.width, newCanvas.height);
+        //context.drawImage(imageObj, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+         nctx.drawImage(video, -rect.x, -rect.y);
+        // Other browsers will fall back to image/png
+        img.src = newCanvas.toDataURL('image/webp');
+        img.style.width = 150;
 
-        ctx.drawImage(image, (rect.x + fixLeft), (rect.y - newHeight + fixTop), newWidth, newHeight);
+        //ctx.drawImage(image, (rect.x + fixLeft), (rect.y - newHeight + fixTop), newWidth, newHeight);
       });
     });
   }
@@ -225,7 +237,7 @@
     });
 
     //try to dump a frame every 100ms
-    var interval = 100, ticks = 3500 / interval, lastFrameTime = Date.now();
+    var interval = 500, ticks = 3500 / interval, lastFrameTime = Date.now();
     var timer = setInterval(function () {
       ticks--;
       if (ticks <= 0) {
@@ -249,6 +261,10 @@
           ctx.drawImage(flame.image, flame.x, flame.y, flame.width, flame.height);
         });
       }
+
+      foto('image' + ticks, ctx.toDataURL("image/png").replace("image/png", "image/octet-stream"))  
+      console.log(ticks)
+
 
       gif.addFrame(ctx, {copy: true, delay: (Date.now() - lastFrameTime)});
       lastFrameTime = Date.now();
@@ -335,6 +351,18 @@
       });
     }
   }
+
+  //auxiliars functions
+
+  function foto(name, src) {
+    var container = document.getElementById('thumbs_container'); 
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = name;
+    img.className = 'thumb';
+    img.style.width = '200px';
+    container.appendChild(img);
+}
 
   /*********************************
    * UI Stuff
