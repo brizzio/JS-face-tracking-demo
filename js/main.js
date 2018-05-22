@@ -169,16 +169,23 @@
 
   function setupTrackingJS() {
     var canvas = document.querySelector('#step1 canvas.visible');
+    
+
 
     var scaledWidth = 240, scaledHeight = Math.round((scaledWidth / pictureWidth) * pictureHeight);
     var frameCount = 0;
     const img = document.querySelector('#screenshot-img');
     const newCanvas = document.querySelector('#step1 canvas.hidden');
     
+    var novo = document.querySelector('#novo');
+    var ctxnovo = novo.getContext('2d');
+    
 
     //setup canvas
     canvas.width = scaledWidth;
     canvas.height = scaledHeight;
+    //newCanvas.width = 150;
+    //newCanvas.height = Math.round((newCanvas.width / pictureWidth) * pictureHeight);
     newCanvas.width = scaledWidth;
     newCanvas.height = scaledHeight;
 
@@ -203,11 +210,53 @@
         ctx.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
         ctx.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
 
+        //get the image data from rect
+        //novo.width = rect.width;
+        novo.height = 150;
+        ctxnovo.clearRect(0, 0, 150, 150)
+        ctxnovo.drawImage(video,rect.x, rect.y,200, 200,0, 0,video.width, video.height);
+        var imgData = ctx.getImageData(rect.y, rect.x,rect.width, rect.height);
+        
+
+        /*
+        // select canvas elements
+        var sourceCanvas = document.getElementsById("some-unique-id");
+        var destCanvas = document.getElementsByClassName("some-class-selector")[0];
+
+        //copy canvas by DataUrl
+        var sourceImageData = sourceCanvas.toDataURL("image/png");
+        var destCanvasContext = destCanvas.getContext('2d');
+
+        var destinationImage = new Image;
+        destinationImage.onload = function(){
+          destCanvasContext.drawImage(destinationImage,0,0);
+        };
+        destinationImage.src = sourceImageData;
+
+        //cria a imagem using blob
+        var canvas = document.getElementById('canvas');
+
+        canvas.toBlob(function(blob) {
+          var newImg = document.createElement('img'),
+              url = URL.createObjectURL(blob);
+
+          newImg.onload = function() {
+            // no longer need to read the blob so it's revoked
+            URL.revokeObjectURL(url);
+          };
+
+          newImg.src = url;
+          document.body.appendChild(newImg);
+        });
+        
+        */
+
         //ctx.drawImage(video, rect.x, rect.y, rect.width, rect.height, rect.x, rect.y, rect.width, rect.height);
         var nctx = newCanvas.getContext('2d')
         nctx.clearRect(0, 0, newCanvas.width, newCanvas.height);
         //context.drawImage(imageObj, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
-         nctx.drawImage(video, -rect.x, -rect.y);
+        //nctx.drawImage(video, rect.x, rect.y, rect.x+rect.width, rect.y+rect.height,0,0,rect.width, rect.height);
+        nctx.putImageData(imgData, 0, 0)
         // Other browsers will fall back to image/png
         img.src = newCanvas.toDataURL('image/webp');
         img.style.width = 150;
